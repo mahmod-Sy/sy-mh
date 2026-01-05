@@ -3,188 +3,595 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تصميم محمود الأحمد </title>
+<title>حاسبة العملة الجديدة - تصميم محمود الأحمد</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-:root{
-  --bg:#f3f1ea;
-  --green:#0f3d34;
-  --card:#ffffff;
-  --result:#d9f7ea;
-  --text:#111;
+:root {
+  --primary: #0f3d34;
+  --primary-light: #1a584b;
+  --secondary: #f8b500;
+  --bg: #f8f5f0;
+  --card: #ffffff;
+  --text: #1a1a1a;
+  --text-light: #666;
+  --border: #e0d9cc;
+  --success: #2ecc71;
+  --warning: #f39c12;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --radius: 20px;
 }
 
-.dark{
-  --bg:#181a1b;
-  --green:#0b3a32;
-  --card:#1f2223;
-  --result:#1f4f43;
-  --text:#f1f1f1;
+.dark {
+  --primary: #0b3a32;
+  --primary-light: #11453c;
+  --secondary: #f8b500;
+  --bg: #121212;
+  --card: #1e1e1e;
+  --text: #ffffff;
+  --text-light: #cccccc;
+  --border: #333;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:'Cairo', sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  transition:.3s;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.container{
-  max-width:420px;
-  margin:auto;
-  padding:16px;
+body {
+  font-family: 'Cairo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  transition: all 0.3s ease;
+  min-height: 100vh;
+  padding-bottom: 80px;
 }
 
-.header{
-  background:var(--green);
-  color:#fff;
-  padding:26px 18px 30px;
-  border-radius:0 0 28px 28px;
-  text-align:center;
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.header h1{
-  margin:0;
-  font-size:24px;
-  font-weight:800;
+/* الهيدر */
+.header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: white;
+  padding: 30px 20px 40px;
+  border-radius: 0 0 30px 30px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: -20px;
+  box-shadow: 0 6px 20px rgba(15, 61, 52, 0.2);
 }
 
-.header p{
-  margin:6px 0 0;
-  opacity:.9;
+.header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
-.card{
-  background:var(--card);
-  margin-top:-20px;
-  padding:20px;
-  border-radius:22px;
-  box-shadow:0 6px 14px rgba(0,0,0,.08);
+.header h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  position: relative;
+  z-index: 1;
 }
 
-label{
-  font-weight:800;
-  display:block;
-  margin-bottom:12px;
-  font-size:18px;
+.header p {
+  margin: 8px 0 0;
+  opacity: 0.9;
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
 }
 
-/* ===== حقل الإدخال (نفس الصورة) ===== */
-.input-box{
-  border:3px solid var(--green);
-  border-radius:18px;
-  padding:14px 16px;
-  display:flex;
-  align-items:center;
-  gap:10px;
+/* البطاقة الرئيسية */
+.card {
+  background: var(--card);
+  padding: 25px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
 }
 
-.currency{
-  font-size:18px;
-  font-weight:700;
-  color:#666;
-  white-space:nowrap;
+.card:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
-.input-box input{
-  border:none;
-  outline:none;
-  width:100%;
-  font-size:34px;
-  font-weight:800;
-  text-align:center;
-  font-family:'Cairo', sans-serif;
-  background:transparent;
-  color:var(--green);
+.card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  color: var(--text);
 }
 
-.input-box input::placeholder{
-  color:#bbb;
-}
-/* ================================= */
-
-.result{
-  background:var(--result);
-  margin-top:16px;
-  padding:16px;
-  border-radius:16px;
-  text-align:center;
-  font-size:20px;
-  font-weight:800;
+.card-title h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
 }
 
-.pay{
-  margin-top:20px;
+/* زر التبديل بين العملات */
+.currency-toggle {
+  display: flex;
+  background: #f0f0f0;
+  border-radius: 12px;
+  padding: 4px;
+  width: 200px;
+  margin: 0 auto 20px;
 }
 
-.pay h3{
-  margin:0 0 12px;
-  font-size:16px;
-  font-weight:800;
+.dark .currency-toggle {
+  background: #2a2a2a;
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
+.toggle-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: transparent;
+  color: var(--text);
 }
 
-.bill{
-  background:var(--card);
-  border-radius:16px;
-  padding:8px;
-  text-align:center;
-  border:1px solid #cfded8;
+.toggle-btn.active {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 8px rgba(15, 61, 52, 0.2);
 }
 
-.bill img{
-  width:100%;
-  border-radius:12px;
+/* حقل الإدخال */
+.input-container {
+  margin-bottom: 25px;
 }
 
-.bill span{
-  display:block;
-  margin-top:6px;
-  font-weight:800;
+label {
+  font-weight: 700;
+  display: block;
+  margin-bottom: 12px;
+  font-size: 18px;
+  color: var(--text);
 }
 
-.note{
-  margin-top:16px;
-  background:#fff3cd;
-  color:#6b4e00;
-  padding:12px;
-  border-radius:14px;
-  font-size:14px;
+.input-box {
+  border: 3px solid var(--primary);
+  border-radius: 18px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--card);
+  transition: all 0.3s;
 }
 
-.hidden{display:none}
-
-.footer{
-  text-align:center;
-  font-size:13px;
-  opacity:.7;
-  margin:28px 0 10px;
+.input-box:focus-within {
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 3px rgba(248, 181, 0, 0.2);
 }
 
-.toggle{
-  position:fixed;
-  bottom:18px;
-  left:18px;
-  background:var(--green);
-  color:#fff;
-  width:46px;
-  height:46px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
-  cursor:pointer;
+.currency {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--primary);
+  white-space: nowrap;
+}
+
+.input-box input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 36px;
+  font-weight: 800;
+  text-align: center;
+  font-family: 'Cairo', sans-serif;
+  background: transparent;
+  color: var(--primary);
+  direction: ltr;
+}
+
+.dark .input-box input {
+  color: #ffffff;
+}
+
+.input-box input::placeholder {
+  color: var(--text-light);
+  opacity: 0.5;
+}
+
+/* النتيجة */
+.result {
+  background: linear-gradient(135deg, #e1f7ef 0%, #d9f7ea 100%);
+  margin: 20px 0;
+  padding: 22px;
+  border-radius: 18px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--primary);
+  border: 2px solid #b8e6d4;
+  transition: all 0.3s ease;
+}
+
+.dark .result {
+  background: linear-gradient(135deg, #1f4f43 0%, #1a3f36 100%);
+  border-color: #2a5d50;
+  color: #ffffff;
+}
+
+/* طريقة الدفع */
+.pay-section {
+  margin-top: 25px;
+}
+
+.pay-section h3 {
+  margin: 0 0 15px;
+  font-size: 18px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  color: var(--text);
+}
+
+.pay-section h3 i {
+  margin-left: 10px;
+  color: var(--secondary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.bill {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 12px;
+  text-align: center;
+  border: 2px solid var(--border);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.bill:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.bill img {
+  width: 100%;
+  border-radius: 12px;
+  height: 120px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.bill span {
+  display: block;
+  margin-top: 8px;
+  font-weight: 800;
+  color: var(--text);
+  font-size: 16px;
+}
+
+.bill .count {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--secondary);
+  color: #000;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+/* التنبيهات */
+.note {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 14px;
+  font-size: 15px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.note i {
+  margin-left: 10px;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.note-warning {
+  background: #fff3cd;
+  color: #856404;
+  border-right: 5px solid #ffc107;
+}
+
+.dark .note-warning {
+  background: #3d2e00;
+  color: #ffd966;
+}
+
+.note-danger {
+  background: #f8d7da;
+  color: #721c24;
+  border-right: 5px solid #dc3545;
+}
+
+.dark .note-danger {
+  background: #3c1c1f;
+  color: #f5c6cb;
+}
+
+.note-info {
+  background: #d1ecf1;
+  color: #0c5460;
+  border-right: 5px solid #17a2b8;
+}
+
+.dark .note-info {
+  background: #1a3f43;
+  color: #bee5eb;
+}
+
+/* الأزرار */
+.buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 14px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-light);
+  transform: translateY(-3px);
+}
+
+.btn-secondary {
+  background: var(--card);
+  color: var(--text);
+  border: 2px solid var(--border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--primary);
+  transform: translateY(-3px);
+}
+
+/* الفوتر */
+.footer {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-light);
+  margin: 30px 0 10px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+/* زر تبديل الوضع */
+.toggle {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: var(--primary);
+  color: white;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  transition: all 0.3s;
+}
+
+.toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* الأدوات المساعدة */
+.hidden {
+  display: none !important;
+}
+
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* تحسينات للشاشات الصغيرة */
+@media (max-width: 480px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .header {
+    padding: 25px 15px 35px;
+  }
+  
+  .header h1 {
+    font-size: 22px;
+  }
+  
+  .input-box input {
+    font-size: 30px;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .result {
+    font-size: 20px;
+    padding: 18px;
+  }
+  
+  .buttons {
+    flex-direction: column;
+  }
+}
+
+/* نافذة النسخ */
+.copy-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.copy-content {
+  background: var(--card);
+  padding: 25px;
+  border-radius: var(--radius);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.copy-content h3 {
+  color: var(--primary);
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.copy-content p {
+  margin-bottom: 20px;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.copy-textarea {
+  width: 100%;
+  height: 150px;
+  padding: 15px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 16px;
+  margin-bottom: 20px;
+  background: var(--bg);
+  color: var(--text);
+  resize: none;
+  direction: ltr;
+  text-align: center;
+}
+
+.copy-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.copy-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.copy-ok {
+  background: var(--primary);
+  color: white;
+}
+
+.copy-ok:hover {
+  background: var(--primary-light);
+}
+
+.copy-cancel {
+  background: var(--border);
+  color: var(--text);
+}
+
+.copy-cancel:hover {
+  background: var(--text-light);
+  color: white;
+}
+
+/* حقل نصي مخفي للنسخ */
+.hidden-textarea {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
 }
 </style>
 </head>
@@ -192,98 +599,623 @@ label{
 <body>
 
 <div class="container">
-
+  <!-- الهيدر -->
   <div class="header">
-    <h1>تصميم محمود الأحمد</h1>
-    <p>حاسبة العملة الجديدة</p>
+    <h1><i class="fas fa-calculator"></i> حاسبة العملة الجديدة</h1>
+    <p>تحويل العملة السورية من القديمة إلى الجديدة والعكس</p>
   </div>
 
+  <!-- البطاقة الرئيسية -->
   <div class="card">
-    <label>أدخل المبلغ القديم</label>
-
-    <div class="input-box">
-      <span class="currency">ل.س</span>
-      <input id="amount" type="number" placeholder="مثال : 10000">
+    <div class="card-title">
+      <h2><i class="fas fa-exchange-alt"></i> تحويل العملة</h2>
     </div>
 
-    <div id="result" class="result hidden"></div>
+    <!-- زر التبديل بين العملات -->
+    <div class="currency-toggle">
+      <button class="toggle-btn active" id="oldToNewBtn" onclick="switchCurrencyType('oldToNew')">
+        <i class="fas fa-arrow-right"></i> قديمة ← جديدة
+      </button>
+      <button class="toggle-btn" id="newToOldBtn" onclick="switchCurrencyType('newToOld')">
+        <i class="fas fa-arrow-left"></i> جديدة ← قديمة
+      </button>
+    </div>
 
-    <div id="pay" class="pay hidden">
-      <h3>طريقة الدفع</h3>
+    <div class="input-container">
+      <label for="amount" id="amountLabel">
+        <i class="fas fa-money-bill-wave"></i> 
+        <span id="labelText">المبلغ بالليرات القديمة</span>
+      </label>
+      <div class="input-box">
+        <span class="currency" id="inputCurrency">ل.س قديمة</span>
+        <input id="amount" type="number" placeholder="مثال: 10000" min="0" step="100">
+      </div>
+    </div>
+
+    <!-- النتيجة -->
+    <div id="result" class="result hidden">
+      <div id="resultText">0 ليرة جديدة</div>
+    </div>
+
+    <!-- طريقة الدفع -->
+    <div id="paySection" class="pay-section hidden">
+      <h3><i class="fas fa-credit-card"></i> طريقة الدفع المقترحة</h3>
       <div class="grid" id="grid"></div>
     </div>
 
-    <div id="note" class="note hidden">
-      ⚠️ تنويه : لاتوجد فئة ال 5 ليرات جديدة يمكنك الدفع ب 500 ليرة قديمة
+    <!-- التنبيهات -->
+    <div id="note5" class="note note-warning hidden">
+      <i class="fas fa-exclamation-triangle"></i>
+      <div>
+        <strong>تنويه:</strong> لا توجد فئة 5 ليرات جديدة، يمكنك دفع الباقي ب 500 ليرة قديمة
+      </div>
+    </div>
+    
+    <div id="noteLessThan10" class="note note-danger hidden">
+      <i class="fas fa-exclamation-circle"></i>
+      <div>
+        <strong>ملاحظة:</strong> المبلغ أقل من 10 ليرات جديدة - لا توجد فئات لهذا المبلغ، يمكنك الدفع باستخدام العملة القديمة
+      </div>
+    </div>
+    
+    <div id="noteRemaining" class="note note-info hidden">
+      <i class="fas fa-info-circle"></i>
+      <div id="noteRemainingText">
+        <strong>ملاحظة:</strong> هناك باقي لا يمكن تغطيته بالفئات المتاحة
+      </div>
+    </div>
+
+    <!-- الأزرار -->
+    <div class="buttons">
+      <button class="btn btn-secondary" onclick="resetCalculator()">
+        <i class="fas fa-redo"></i> إعادة تعيين
+      </button>
+      <button class="btn btn-primary" onclick="copyResult()">
+        <i class="fas fa-copy"></i> نسخ النتيجة
+      </button>
     </div>
   </div>
 
+  <!-- الفوتر -->
   <div class="footer">
-    تم تصميم هذا الموقع بواسطة محمود الأحمد
+    تم تصميم هذا الموقع بواسطة محمود الأحمد &copy; <span id="currentYear"></span>
   </div>
-
 </div>
 
-<div class="toggle" id="modeBtn" onclick="toggleMode()">🌙</div>
+<!-- زر تبديل الوضع -->
+<div class="toggle" id="modeBtn" onclick="toggleMode()">
+  <i class="fas fa-moon"></i>
+</div>
+
+<!-- نافذة النسخ -->
+<div id="copyModal" class="copy-modal hidden">
+  <div class="copy-content">
+    <h3><i class="fas fa-copy"></i> نسخ النتيجة</h3>
+    <p id="copyMessage">الرجاء نسخ النص أدناه:</p>
+    <textarea id="copyTextarea" class="copy-textarea" readonly></textarea>
+    <div class="copy-buttons">
+      <button class="copy-btn copy-ok" onclick="manualCopy()">
+        <i class="fas fa-check"></i> تم النسخ
+      </button>
+      <button class="copy-btn copy-cancel" onclick="closeCopyModal()">
+        <i class="fas fa-times"></i> إغلاق
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- حقل نصي مخفي للنسخ التلقائي -->
+<textarea id="hiddenCopyField" class="hidden-textarea"></textarea>
 
 <script>
-/* ضع روابط صور العملات هنا */
-const billImages = {
-  500: "https://www.newsyrianlira.com/img/500.png",
-  200: "https://www.newsyrianlira.com/img/200.png",
-  100: "https://www.newsyrianlira.com/img/100.png",
-  50:  "https://www.newsyrianlira.com/img/50.png",
-  25:  "https://www.newsyrianlira.com/img/25.png",
-  10:  "https://www.newsyrianlira.com/img/10.png"
-};
+// بيانات الفئات المتاحة فقط: 500, 200, 100, 50, 25, 10
+const billData = [
+  { value: 500, name: "خمسمائة ليرة", color: "#4CAF50", img: "https://www.newsyrianlira.com/img/500.png" },
+  { value: 200, name: "مائتان ليرة", color: "#2196F3", img: "https://www.newsyrianlira.com/img/200.png" },
+  { value: 100, name: "مائة ليرة", color: "#FF9800", img: "https://www.newsyrianlira.com/img/100.png" },
+  { value: 50, name: "خمسون ليرة", color: "#9C27B0", img: "https://www.newsyrianlira.com/img/50.png" },
+  { value: 25, name: "خمسة وعشرون ليرة", color: "#F44336", img: "https://www.newsyrianlira.com/img/25.png" },
+  { value: 10, name: "عشر ليرات", color: "#607D8B", img: "https://www.newsyrianlira.com/img/10.png" }
+];
 
-const bills = [500,200,100,50,25,10];
-
+// العناصر DOM
 const input = document.getElementById("amount");
 const result = document.getElementById("result");
+const resultText = document.getElementById("resultText");
 const grid = document.getElementById("grid");
-const pay = document.getElementById("pay");
-const note = document.getElementById("note");
-const btn = document.getElementById("modeBtn");
+const paySection = document.getElementById("paySection");
+const note5 = document.getElementById("note5");
+const noteLessThan10 = document.getElementById("noteLessThan10");
+const noteRemaining = document.getElementById("noteRemaining");
+const noteRemainingText = document.getElementById("noteRemainingText");
+const modeBtn = document.getElementById("modeBtn");
+const modeIcon = modeBtn.querySelector("i");
+const copyModal = document.getElementById("copyModal");
+const copyTextarea = document.getElementById("copyTextarea");
+const hiddenCopyField = document.getElementById("hiddenCopyField");
 
-input.addEventListener("input", ()=>{
-  const oldVal = parseInt(input.value);
-  if(!oldVal){
-    result.classList.add("hidden");
-    pay.classList.add("hidden");
-    note.classList.add("hidden");
+// عناصر التبديل بين العملات
+const oldToNewBtn = document.getElementById("oldToNewBtn");
+const newToOldBtn = document.getElementById("newToOldBtn");
+const amountLabel = document.getElementById("amountLabel");
+const labelText = document.getElementById("labelText");
+const inputCurrency = document.getElementById("inputCurrency");
+
+// المتغيرات
+let currencyType = 'oldToNew';
+let currentTextToCopy = '';
+
+// تاريخ السعر
+document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+// تحميل الوضع المفضل
+if (localStorage.getItem("darkMode") === "enabled") {
+  document.body.classList.add("dark");
+  modeIcon.className = "fas fa-sun";
+}
+
+// استمع لإدخال المستخدم
+input.addEventListener("input", () => {
+  const amount = parseInt(input.value) || 0;
+  updateCalculation(amount);
+});
+
+// تبديل نوع العملة
+function switchCurrencyType(type) {
+  currencyType = type;
+  
+  if (type === 'oldToNew') {
+    oldToNewBtn.classList.add('active');
+    newToOldBtn.classList.remove('active');
+    labelText.textContent = 'المبلغ بالليرات القديمة';
+    inputCurrency.textContent = 'ل.س قديمة';
+    input.placeholder = 'مثال: 10000';
+  } else {
+    newToOldBtn.classList.add('active');
+    oldToNewBtn.classList.remove('active');
+    labelText.textContent = 'المبلغ بالليرات الجديدة';
+    inputCurrency.textContent = 'ل.س جديدة';
+    input.placeholder = 'مثال: 100';
+  }
+  
+  if (input.value) {
+    updateCalculation(parseInt(input.value));
+  }
+}
+
+// تحقق مما إذا كان الرقم يحتوي على 5 ليرات ولا يمكن تغطيته بالفئات المتاحة
+function hasUncovered5(amount) {
+  // الفئات المتاحة: 500, 200, 100, 50, 25, 10
+  
+  // إذا كان الرقم أقل من 10
+  if (amount < 10) {
+    return amount === 5; // إذا كان 5 فقط
+  }
+  
+  // تحقق مما إذا كان الرقم يحتوي على 5 في آحاده
+  if (amount % 10 === 5) {
+    // جرب حساب الفئات لهذا الرقم
+    let tempAmount = amount;
+    const sortedBills = [...billData].sort((a, b) => b.value - a.value);
+    
+    // احسب بأكبر الفئات أولاً
+    for (const bill of sortedBills) {
+      const count = Math.floor(tempAmount / bill.value);
+      if (count > 0) {
+        tempAmount -= count * bill.value;
+      }
+    }
+    
+    // إذا بقي 5 بعد الحساب، إذن لا يمكن تغطية الـ5
+    return tempAmount === 5;
+  }
+  
+  return false;
+}
+
+// حساب الفئات الممكنة
+function calculatePossibleBills(amount) {
+  // إذا كان المبلغ أقل من 10
+  if (amount < 10) {
+    return {
+      bills: [],
+      total: 0,
+      remaining: amount,
+      canBeFullyCovered: false
+    };
+  }
+  
+  let remaining = amount;
+  const bills = [];
+  const sortedBills = [...billData].sort((a, b) => b.value - a.value);
+  
+  // احسب بأكبر الفئات أولاً
+  for (const bill of sortedBills) {
+    const count = Math.floor(remaining / bill.value);
+    if (count > 0) {
+      bills.push({
+        value: bill.value,
+        count: count,
+        name: bill.name,
+        img: bill.img
+      });
+      remaining -= count * bill.value;
+    }
+  }
+  
+  // إذا كان الباقي أكبر من 0
+  if (remaining > 0) {
+    // حاول استخدام فئات أصغر لتغطية الباقي
+    for (let i = sortedBills.length - 1; i >= 0; i--) {
+      const bill = sortedBills[i];
+      if (remaining >= bill.value) {
+        const count = Math.floor(remaining / bill.value);
+        if (count > 0) {
+          // أضف الفئة الإضافية
+          const existingBillIndex = bills.findIndex(b => b.value === bill.value);
+          if (existingBillIndex !== -1) {
+            bills[existingBillIndex].count += count;
+          } else {
+            bills.push({
+              value: bill.value,
+              count: count,
+              name: bill.name,
+              img: bill.img
+            });
+          }
+          remaining -= count * bill.value;
+        }
+      }
+    }
+  }
+  
+  // احسب المجموع الفعلي
+  const total = bills.reduce((sum, bill) => sum + (bill.value * bill.count), 0);
+  
+  return {
+    bills: bills,
+    total: total,
+    remaining: remaining,
+    canBeFullyCovered: remaining === 0
+  };
+}
+
+// تحليل المبلغ
+function analyzeAmount(amount) {
+  // 1. تحقق إذا كان المبلغ أقل من 10
+  if (amount < 10) {
+    return {
+      showBills: false,
+      remaining: amount,
+      noteType: 'less_than_10',
+      has5: amount === 5
+    };
+  }
+  
+  // 2. احسب الفئات الممكنة
+  const billsResult = calculatePossibleBills(amount);
+  
+  // 3. تحقق إذا كان هناك 5 ليرات غير مغطاة
+  const hasUncoveredFive = hasUncovered5(amount);
+  
+  if (hasUncoveredFive) {
+    return {
+      showBills: true,
+      remaining: 5,
+      noteType: 'contains_5',
+      billsResult: billsResult
+    };
+  }
+  
+  // 4. إذا كان هناك باقي ولكن ليس 5
+  if (billsResult.remaining > 0) {
+    return {
+      showBills: true,
+      remaining: billsResult.remaining,
+      noteType: 'other_remaining',
+      billsResult: billsResult
+    };
+  }
+  
+  // 5. إذا تم تغطية المبلغ بالكامل
+  return {
+    showBills: true,
+    remaining: 0,
+    noteType: '',
+    billsResult: billsResult
+  };
+}
+
+// تحديث الحساب
+function updateCalculation(amount) {
+  if (amount <= 0) {
+    hideAllSections();
     return;
   }
 
-  let newVal = Math.floor(oldVal / 100);
-  result.textContent = `واجب الدفع: ${newVal} ليرة جديدة`;
+  let resultAmount, resultTextStr;
+  
+  // إخفاء جميع التنبيهات أولاً
+  note5.classList.add("hidden");
+  noteLessThan10.classList.add("hidden");
+  noteRemaining.classList.add("hidden");
+  
+  if (currencyType === 'oldToNew') {
+    // تحويل من قديم إلى جديد
+    resultAmount = Math.floor(amount / 100);
+    resultTextStr = `الواجب دفعه: ${resultAmount.toLocaleString()} ليرة جديدة`;
+    
+    // تحليل المبلغ
+    const analysis = analyzeAmount(resultAmount);
+    
+    // عرض الفئات
+    displayBills(analysis.billsResult, analysis.remaining);
+    
+    // عرض التنبيه المناسب
+    if (analysis.noteType === 'contains_5') {
+      note5.classList.remove("hidden");
+    } else if (analysis.noteType === 'less_than_10') {
+      noteLessThan10.classList.remove("hidden");
+    } else if (analysis.noteType === 'other_remaining' && analysis.remaining > 0) {
+      noteRemainingText.innerHTML = `<strong>ملاحظة:</strong> باقي ${analysis.remaining} ليرة جديدة - لا توجد فئة مناسبة للباقي، يمكنك دفع الباقي باستخدام العملة القديمة`;
+      noteRemaining.classList.remove("hidden");
+    }
+    
+  } else {
+    // تحويل من جديد إلى قديم
+    resultAmount = amount * 100;
+    resultTextStr = `المبلغ القديم: ${resultAmount.toLocaleString()} ليرة قديمة`;
+    paySection.classList.add("hidden");
+  }
+  
+  // عرض النتيجة
+  resultText.textContent = resultTextStr;
   result.classList.remove("hidden");
+}
 
+// عرض الفئات
+function displayBills(billsResult, remaining) {
   grid.innerHTML = "";
-  let remaining = newVal;
+  
+  if (billsResult.bills.length === 0 && remaining === 0) {
+    paySection.classList.add("hidden");
+    return;
+  }
+  
+  // عرض الفئات المستخدمة
+  billsResult.bills.forEach(bill => {
+    grid.innerHTML += `
+      <div class="bill">
+        <div class="count">${bill.count}</div>
+        <img src="${bill.img}" alt="${bill.name}" onerror="this.src='https://via.placeholder.com/150x80/1a3f36/ffffff?text=${bill.value}+ليرة'">
+        <span>${bill.name}</span>
+      </div>
+    `;
+  });
+  
+  // عرض الباقي إذا كان موجوداً
+  if (remaining > 0) {
+    const remainingText = `باقي ${remaining} ليرة جديدة`;
+    
+    grid.innerHTML += `
+      <div class="bill" style="border-style: dashed; opacity: 0.8;">
+        <div class="count" style="background: #dc3545;">!</div>
+        <img src="https://via.placeholder.com/150x80/6c757d/ffffff?text=باقي+${remaining}" alt="الباقي">
+        <span>${remainingText}</span>
+      </div>
+    `;
+  }
+  
+  paySection.classList.remove("hidden");
+}
 
-  bills.forEach(v=>{
-    let count = Math.floor(remaining / v);
-    if(count > 0){
-      remaining -= count * v;
-      grid.innerHTML += `
-        <div class="bill">
-          <img src="${billImages[v]}">
-          <span>${v} × ${count}</span>
-        </div>
-      `;
+// إخفاء جميع الأقسام
+function hideAllSections() {
+  result.classList.add("hidden");
+  paySection.classList.add("hidden");
+  note5.classList.add("hidden");
+  noteLessThan10.classList.add("hidden");
+  noteRemaining.classList.add("hidden");
+}
+
+// إعادة تعيين الحاسبة
+function resetCalculator() {
+  input.value = "";
+  hideAllSections();
+  input.focus();
+}
+
+// إنشاء نص النتيجة للنسخ
+function createCopyText() {
+  const amount = parseInt(input.value) || 0;
+  
+  let textToCopy;
+  if (currencyType === 'oldToNew') {
+    const newAmount = Math.floor(amount / 100);
+    const analysis = analyzeAmount(newAmount);
+    let additionalNote = '';
+    
+    if (analysis.noteType === 'contains_5') {
+      additionalNote = '\n⚠️ *ملاحظة:* لا توجد فئة 5 ليرات جديدة، يمكنك دفع الباقي ب 500 ليرة قديمة';
+    } else if (analysis.noteType === 'less_than_10') {
+      additionalNote = '\n⚠️ *ملاحظة:* المبلغ أقل من 10 ليرات جديدة - لا توجد فئات لهذا المبلغ، يمكنك الدفع باستخدام العملة القديمة';
+    } else if (analysis.noteType === 'other_remaining' && analysis.remaining > 0) {
+      additionalNote = `\n⚠️ *ملاحظة:* باقي ${analysis.remaining} ليرة جديدة - لا توجد فئة مناسبة للباقي، يمكنك دفع الباقي باستخدام العملة القديمة`;
+    }
+    
+    // إضافة تفاصيل الفئات
+    let billsText = '';
+    if (analysis.billsResult && analysis.billsResult.bills.length > 0) {
+      billsText = '\n\n💰 *الفئات المقترحة:*';
+      analysis.billsResult.bills.forEach(bill => {
+        billsText += `\n   ${bill.value} ليرة × ${bill.count}`;
+      });
+    }
+    
+    if (analysis.remaining > 0) {
+      billsText += `\n   ⚠️ باقي: ${analysis.remaining} ليرة`;
+    }
+    
+    textToCopy = `💱 *نتيجة التحويل* 💱
+    
+📊 *المبلغ القديم:* ${amount.toLocaleString()} ليرة سورية قديمة
+🔄 *المبلغ الجديد:* ${newAmount.toLocaleString()} ليرة سورية جديدة
+${additionalNote}
+${billsText}
+
+✨ *تم الحساب بواسطة موقع محمود الأحمد*
+شكراً لاستخدامك موقعنا 💚`;
+  } else {
+    const oldAmount = amount * 100;
+    textToCopy = `💱 *نتيجة التحويل* 💱
+    
+🆕 *المبلغ الجديد:* ${amount.toLocaleString()} ليرة سورية جديدة
+🔄 *المبلغ القديم:* ${oldAmount.toLocaleString()} ليرة سورية قديمة
+
+✨ *تم الحساب بواسطة موقع محمود الأحمد*
+شكراً لاستخدامك موقعنا 💚`;
+  }
+  
+  return textToCopy;
+}
+
+// نسخ النتيجة
+function copyResult() {
+  if (!result.classList.contains("hidden")) {
+    currentTextToCopy = createCopyText();
+    
+    if (tryAutoCopy(currentTextToCopy)) {
+      showCopySuccess();
+    } else {
+      copyTextarea.value = currentTextToCopy;
+      copyModal.classList.remove("hidden");
+      
+      setTimeout(() => {
+        copyTextarea.select();
+        copyTextarea.setSelectionRange(0, 99999);
+      }, 100);
+    }
+  } else {
+    currentTextToCopy = "⚠️ لا يوجد نتيجة للنسخ. الرجاء إدخال مبلغ أولاً.";
+    copyTextarea.value = currentTextToCopy;
+    copyModal.classList.remove("hidden");
+  }
+}
+
+// محاولة النسخ التلقائي
+function tryAutoCopy(text) {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text);
+      return true;
+    }
+    
+    hiddenCopyField.value = text;
+    hiddenCopyField.select();
+    hiddenCopyField.setSelectionRange(0, 99999);
+    
+    const success = document.execCommand('copy');
+    if (success) {
+      hiddenCopyField.blur();
+      return true;
+    }
+  } catch (err) {
+    console.error('فشل في النسخ التلقائي:', err);
+  }
+  
+  return false;
+}
+
+// النسخ اليدوي من النافذة
+function manualCopy() {
+  copyTextarea.select();
+  copyTextarea.setSelectionRange(0, 99999);
+  
+  try {
+    const success = document.execCommand('copy');
+    if (success) {
+      showCopySuccess();
+      closeCopyModal();
+    } else {
+      alert("الرجاء نسخ النص يدوياً عن طريق تحديده ثم الضغط على نسخ");
+    }
+  } catch (err) {
+    alert("الرجاء نسخ النص يدوياً عن طريق تحديده ثم الضغط على نسخ");
+  }
+}
+
+// إغلاق نافذة النسخ
+function closeCopyModal() {
+  copyModal.classList.add("hidden");
+  copyTextarea.value = '';
+}
+
+// عرض رسالة النجاح
+function showCopySuccess() {
+  const copyBtn = document.querySelector('.btn-primary');
+  const originalHTML = copyBtn.innerHTML;
+  const originalBg = copyBtn.style.background;
+  
+  copyBtn.innerHTML = '<i class="fas fa-check"></i> تم النسخ';
+  copyBtn.style.background = "var(--success)";
+  
+  const originalModeHTML = modeBtn.innerHTML;
+  const originalModeBg = modeBtn.style.background;
+  
+  modeBtn.innerHTML = '<i class="fas fa-check"></i>';
+  modeBtn.style.background = "var(--success)";
+  
+  setTimeout(() => {
+    copyBtn.innerHTML = originalHTML;
+    copyBtn.style.background = originalBg;
+    
+    modeBtn.innerHTML = originalModeHTML;
+    modeBtn.style.background = originalModeBg;
+  }, 2000);
+}
+
+// تبديل الوضع الليلي/النهاري
+function toggleMode() {
+  document.body.classList.toggle("dark");
+  
+  if (document.body.classList.contains("dark")) {
+    modeIcon.className = "fas fa-sun";
+    localStorage.setItem("darkMode", "enabled");
+  } else {
+    modeIcon.className = "fas fa-moon";
+    localStorage.setItem("darkMode", "disabled");
+  }
+  
+  const inputField = document.querySelector('.input-box input');
+  if (document.body.classList.contains("dark")) {
+    inputField.style.color = "#ffffff";
+  } else {
+    inputField.style.color = "var(--primary)";
+  }
+}
+
+// تهيئة أولية
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    if (!input.value) {
+      input.value = 2500; // مثال: 2500 قديمة = 25 جديدة
+      updateCalculation(2500);
+    }
+  }, 500);
+  
+  const inputField = document.querySelector('.input-box input');
+  if (document.body.classList.contains("dark")) {
+    inputField.style.color = "#ffffff";
+  } else {
+    inputField.style.color = "var(--primary)";
+  }
+  
+  copyModal.addEventListener('click', function(e) {
+    if (e.target === copyModal) {
+      closeCopyModal();
     }
   });
-
-  pay.classList.remove("hidden");
-  remaining === 5 ? note.classList.remove("hidden") : note.classList.add("hidden");
 });
-
-function toggleMode(){
-  document.body.classList.toggle("dark");
-  btn.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
-}
 </script>
-
 </body>
 </html>
